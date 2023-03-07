@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragments.SensorDataFragment">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1">
+        <TableRow>
+            <TextView
+                android:id="@+id/accelerometerSensorLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:background="#EEFFBB"
+                android:text="Accelerometer Sensor: "/>
+            <TextView
+                android:id="@+id/accelerometerSensorValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+<!--                android:text=" rate of rotation around x, y, z (rad/sec)"/>-->
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/resultLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:background="#EEFFBB"
+                android:text="Classification Result:" />
+
+            <TextView
+                android:id="@+id/result"
+                android:layout_span="4" />
+        </TableRow>
+        <TableRow>
+            <Button
+                android:id="@+id/buttonStart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Start" />
+        </TableRow>
+        <TableRow>
+            <Button
+                android:id="@+id/buttonStop"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Stop" />
+        </TableRow>
+    </TableLayout>
+</FrameLayout>
+

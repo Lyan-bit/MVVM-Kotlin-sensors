@@ -1,0 +1,44 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="1"
+    tools:context=".fragments.ClassificationFragment" >
+    <!--Screen-->
+            <TableRow>
+                <TextView
+                    android:id="@+id/resultLabel"
+                    android:textStyle="bold"
+                    android:background="#EEFFBB"
+                    android:text="Result:" />
+
+                <TextView
+                    android:id="@+id/result"
+                    android:layout_span="4" />
+            </TableRow>
+            <TableRow>
+                <Button
+                    android:id="@+id/diagnoseOK"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:background="#AAAAFF"
+                    android:text="OK"
+                    android:onClick="diagnoseOK"/>
+                <Button
+                    android:id="@+id/diagnoseCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="3"
+                    android:background="#FFAAAA"
+                    android:text="Cancel"
+                    android:onClick="diagnoseCancel"/>
+            </TableRow>
+
+        </TableLayout>
+</ScrollView>
