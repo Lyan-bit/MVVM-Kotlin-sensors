@@ -86,6 +86,7 @@ class ClassificationFragment : Fragment(), View.OnClickListener {
         data.add(six)
         data.add(seven)
         data.add(eight)
+	data.add(nine)
         data.add(ten)
         data.add(eleven)
         data.add(twelve)
