@@ -50,7 +50,7 @@ class ClassificationFragment : Fragment(), View.OnClickListener {
 		return root
 	}
 
-    private fun diagnoseOK (_v: View) {
+    private fun diagnoseOK () {
         val one = floatArrayOf(-2.3350e-01f, 5.2750e-02f, -3.8000e-02f)
         val two = floatArrayOf(-2.2800e-01f, 1.0975e-01f, -3.9500e-02f)
         val three = floatArrayOf(-2.2350e-01f, 9.0500e-02f, -6.5000e-02f)
@@ -102,9 +102,6 @@ class ClassificationFragment : Fragment(), View.OnClickListener {
         data.add(twenty4)
         data.add(twenty5)
         data.add(twenty6)
-//        val data  = arrayOf(one, two, three, four, five, six, seven, eight,
-//        nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen,
-//        twenty, twenty1, twenty2, twenty3, twenty4, twenty5, twenty6)
 
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -113,17 +110,17 @@ class ClassificationFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun diagnoseCancel (_v: View) {
+    private fun diagnoseCancel () {
         resultTextView.text = ""
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.diagnoseOK -> {
-                diagnoseOK(v)
+                diagnoseOK()
             }
             R.id.diagnoseCancel -> {
-                diagnoseCancel(v)
+                diagnoseCancel()
             }
         }
 
