@@ -59,15 +59,15 @@ class SensorDataFragment : Fragment(), View.OnClickListener {
 
 		when (v?.id) {
 			R.id.buttonStart -> {
-				start(v)
+				start()
 			}
 			R.id.buttonStop -> {
-				stop(v)
+				stop()
 			}
 		}
 	}
 
-	private fun start (_v: View) {
+	private fun start () {
 		sensorvm.startSensors()
 		start = true
 
@@ -82,7 +82,7 @@ class SensorDataFragment : Fragment(), View.OnClickListener {
 
 	}
 
-	private fun stop (_v: View) {
+	private fun stop () {
 		start = false
 		sensorvm.stopSensors()
 		accelerometerSensorValue.text = ""
