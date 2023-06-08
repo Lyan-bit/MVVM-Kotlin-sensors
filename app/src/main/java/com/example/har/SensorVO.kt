@@ -1,4 +1,4 @@
-package com.example.sensors
+package com.example.har
 
 import java.util.ArrayList
 
