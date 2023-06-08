@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.har.fragments.ClassificationFragment
+import com.example.har.fragments.CollectSensorFragment
 import com.example.har.fragments.SensorDataFragment
 
 class MyPagerAdapter(private val mContext: Context, fm: FragmentManager?) : FragmentPagerAdapter(fm!!) {
@@ -13,17 +13,14 @@ class MyPagerAdapter(private val mContext: Context, fm: FragmentManager?) : Frag
         private val TAB_TITLES = arrayOf("Accelerometer","Classification")
     }
 
-   override fun getItem(position: Int): Fragment {
+    override fun getItem(position: Int): Fragment {
         // instantiate a fragment for the page.
-            return when (position) {
-                 0 -> { 
-                    AccelerometerClassificationFragment.newInstance(mContext) 
-                }
-                 1 -> { 
-                    ClassificationFragment.newInstance(mContext) 
-                }
-                else -> AccelerometerClassificationFragment.newInstance(mContext) 
-             }
+        if (position == 0) {
+            return SensorDataFragment.newInstance(mContext)
+        } else if (position == 1) {
+            return CollectSensorFragment.newInstance(mContext)
+        } else
+        return SensorDataFragment.newInstance(mContext)
     }
 
     override fun getPageTitle(position: Int): CharSequence {
