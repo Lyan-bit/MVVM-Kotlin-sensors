@@ -15,12 +15,15 @@ class MyPagerAdapter(private val mContext: Context, fm: FragmentManager?) : Frag
 
     override fun getItem(position: Int): Fragment {
         // instantiate a fragment for the page.
-        if (position == 0) {
-            return SensorDataFragment.newInstance(mContext)
-        } else if (position == 1) {
-            return CollectSensorFragment.newInstance(mContext)
-        } else
-        return SensorDataFragment.newInstance(mContext)
+            return when (position) {
+                 0 -> { 
+                    SensorDataFragment.newInstance(mContext) 
+                }
+                 1 -> { 
+                    CollectSensorFragment.newInstance(mContext) 
+                }
+                else -> SensorDataFragment.newInstance(mContext) 
+             }
     }
 
     override fun getPageTitle(position: Int): CharSequence {
