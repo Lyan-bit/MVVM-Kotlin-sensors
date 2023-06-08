@@ -20,7 +20,7 @@ class MyPagerAdapter(private val mContext: Context, fm: FragmentManager?) : Frag
                     AccelerometerClassificationFragment.newInstance(mContext) 
                 }
                  1 -> { 
-                    CollectSensorFragment.newInstance(mContext) 
+                    ClassificationFragment.newInstance(mContext) 
                 }
                 else -> AccelerometerClassificationFragment.newInstance(mContext) 
              }
