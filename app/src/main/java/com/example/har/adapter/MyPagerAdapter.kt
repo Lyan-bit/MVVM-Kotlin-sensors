@@ -13,14 +13,17 @@ class MyPagerAdapter(private val mContext: Context, fm: FragmentManager?) : Frag
         private val TAB_TITLES = arrayOf("Accelerometer","Classification")
     }
 
-    override fun getItem(position: Int): Fragment {
+   override fun getItem(position: Int): Fragment {
         // instantiate a fragment for the page.
-        if (position == 0) {
-            return SensorDataFragment.newInstance(mContext)
-        } else if (position == 1) {
-            return ClassificationFragment.newInstance(mContext)
-        } else
-        return SensorDataFragment.newInstance(mContext)
+            return when (position) {
+                 0 -> { 
+                    AccelerometerClassificationFragment.newInstance(mContext) 
+                }
+                 1 -> { 
+                    CollectSensorFragment.newInstance(mContext) 
+                }
+                else -> AccelerometerClassificationFragment.newInstance(mContext) 
+             }
     }
 
     override fun getPageTitle(position: Int): CharSequence {
