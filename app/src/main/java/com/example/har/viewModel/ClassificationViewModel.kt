@@ -1,76 +1,68 @@
 package com.example.har.viewModel
 
 import android.content.Context
-import android.content.res.AssetManager
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import androidx.lifecycle.ViewModel
-import org.tensorflow.lite.Interpreter
-import java.io.FileInputStream
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import java.nio.channels.FileChannel
-import java.util.ArrayList
+import com.example.har.MySensorEvent
+import com.example.har.SensorType
+import com.example.har.StepCounterSensorManager
+import java.util.*
 
 class ClassificationViewModel (myContext: Context): ViewModel()  {
-    private val assetManager: AssetManager = myContext.assets
+      private var stepCounter: StepCounterSensorManager = StepCounterSensorManager(myContext)
+    var currentSensor = ""
     var res = ""
 
     companion object {
-        private var instance: SensorDataViewModel? = null
-        fun getInstance(context: Context): SensorDataViewModel {
-            return instance ?: SensorDataViewModel(context)
+        private var instance: ClassificationViewModel? = null
+        fun getInstance(context: Context): ClassificationViewModel {
+            return instance ?: ClassificationViewModel(context)
         }
     }
 
-    //classification
-    private fun loadModelFile(assetManager: AssetManager, modelPath: String): ByteBuffer {
-        val fileDescriptor = assetManager.openFd(modelPath)
-        val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
-        val fileChannel = inputStream.channel
-        val startOffset = fileDescriptor.startOffset
-        val declaredLength = fileDescriptor.declaredLength
-        return fileChannel.map(
-            FileChannel.MapMode.READ_ONLY,
-            startOffset, declaredLength)
+    fun collectSensor(): String {
+        var result = ""
+        return result
     }
 
-    fun classify(x: ArrayList<FloatArray>): String {
-        lateinit var tflite : Interpreter
-        lateinit var tflitemodel : ByteBuffer
-
-        try{
-            tflitemodel = loadModelFile(assetManager, "converted_HARmodel.tflite")
-            tflite = Interpreter(tflitemodel)
-        } catch(ex: Exception){
-            ex.printStackTrace()
+    fun startSensors () {
+        if (!stepCounter.sensorExists()){
+            currentSensor = "No StepCounter Sensor"
         }
-
-        val byteBuffer = ByteBuffer.allocateDirect(4 * 26 * 3 )
-        for (j in x) {
-            byteBuffer.putFloat(j[0])
-            byteBuffer.putFloat(j[1])
-            byteBuffer.putFloat(j[2])
+        else {
+            stepCounter.startSensor()
         }
-        val outputVal: ByteBuffer = ByteBuffer.allocateDirect(12)
-        outputVal.order(ByteOrder.nativeOrder())
+    }
 
-        tflite.run(byteBuffer, outputVal)
-        outputVal.rewind()
-
-        val result = FloatArray(3)
-        for (i in 0..2) {
-            result[i] = outputVal.float
+    fun stopSensors () {
+        if (stepCounter.sensorExists()){
+            stepCounter.stopSensor()
         }
+    }
 
-        res = if (result[0] > result[1] && result[0] > result[2])
-            "Stationary"
-        else if (result[1] > result[0] && result[1] > result[2])
-            "Walking"
-        else
-            "Running"
-        // res = "Stationary: \t" + round(result[0]) +"\n"+"Walking: \t" + round(result[1]) +"\n"+"Running: \t" + round(result[2])
-        Log.i("res", res)
-        return res
+    fun setHandler() {
+        stepCounter.setHandler(handler)
+    }
 
+    // Handle messages
+    private val handler: Handler = object : Handler(Looper.getMainLooper()) {
+        /*
+         * handleMessage() defines the operations to perform when
+         * the Handler receives a new Message to process.
+         */
+        override fun handleMessage(inputMessage: Message) {
+            // Gets the image task from the incoming Message object.
+            val sensorEvent = inputMessage.obj as MySensorEvent
+            val accelerometerArray: ArrayList<FloatArray> = ArrayList()
+
+                if (sensorEvent.type == SensorType.STEP_COUNTER){
+                    currentSensor = sensorEvent.value
+                    accelerometerArray.add(sensorEvent.data)
+                    res =  sensorEvent.value
+                    accelerometerArray.clear()
+                }
+        }
     }
 }
