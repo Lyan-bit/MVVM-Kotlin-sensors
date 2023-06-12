@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.example.har.fragments.AccelerometerClassificationFragment
 import com.example.har.fragments.CollectSensorFragment
-import com.example.har.fragments.SensorDataFragment
 
 class MyPagerAdapter(private val mContext: Context, fm: FragmentManager?) : FragmentPagerAdapter(fm!!) {
 
@@ -17,12 +17,12 @@ class MyPagerAdapter(private val mContext: Context, fm: FragmentManager?) : Frag
         // instantiate a fragment for the page.
             return when (position) {
                  0 -> { 
-                    SensorDataFragment.newInstance(mContext) 
+                    AccelerometerClassificationFragment.newInstance(mContext)
                 }
                  1 -> { 
                     CollectSensorFragment.newInstance(mContext) 
                 }
-                else -> SensorDataFragment.newInstance(mContext) 
+                else -> AccelerometerClassificationFragment.newInstance(mContext)
              }
     }
 
