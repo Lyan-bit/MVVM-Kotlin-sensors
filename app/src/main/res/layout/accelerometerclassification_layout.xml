@@ -3,30 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.CollectSensorFragment">
+    tools:context="fragments.AccelerometerClassificationFragment">
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:stretchColumns="1">
 
         <TableRow>
-            <!-- step_counter Sensor Output -->
+            <!-- accelerometer Sensor Output -->
             <TextView
-                android:id="@+id/step_counterSensorLabel"
+                android:id="@+id/accelerometerSensorLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:text="Step_counter Sensor: "/>
+                android:text="Accelerometer Sensor: "/>
         </TableRow>
         <TableRow>
             <TextView
-                android:id="@+id/step_counterSensorValue"
+                android:id="@+id/accelerometerSensorValue"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""/>
         </TableRow>
 
+        <TableRow>
+            <TextView
+                android:id="@+id/resultLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:background="#EEFFBB"
+                android:text="Classification Result:" />
+
+            <TextView
+                android:id="@+id/result"
+                android:layout_span="4" />
+        </TableRow>
 
         <TableRow>
             <Button
