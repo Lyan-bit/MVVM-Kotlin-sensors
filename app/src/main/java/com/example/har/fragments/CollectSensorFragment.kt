@@ -16,12 +16,12 @@ import android.content.pm.PackageManager
 import androidx.core.content.PermissionChecker
 import androidx.core.content.ContextCompat
 import com.example.har.R
-import com.example.har.viewModel.ClassificationViewModel
+import com.example.har.viewModel.CollectSensorViewModel
 
 class CollectSensorFragment : Fragment(), View.OnClickListener {
     lateinit var root: View
     lateinit var myContext: Context
-    private lateinit var model: ClassificationViewModel
+    private lateinit var model: CollectSensorViewModel
 
     private lateinit var accelerometerSensorValue : TextView
     private lateinit var step_counterSensorValue : TextView
@@ -34,7 +34,7 @@ class CollectSensorFragment : Fragment(), View.OnClickListener {
     private var start = true
 
     companion object {
-        fun newInstance(c: Context): CollectSensorFragment  {
+        fun newInstance(c: Context): CollectSensorFragment {
             val fragment = CollectSensorFragment ()
             val args = Bundle()
             fragment.arguments = args
@@ -44,10 +44,10 @@ class CollectSensorFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        root = inflater.inflate(R.layout.classification_layout , container, false)
+        root = inflater.inflate(R.layout.sensordata_layout , container, false)
         super.onViewCreated(root, savedInstanceState)
 
-        model = ClassificationViewModel.getInstance(myContext)
+        model = CollectSensorViewModel.getInstance(myContext)
         model.setHandler()
 
         //UI components declaration
@@ -112,7 +112,8 @@ class CollectSensorFragment : Fragment(), View.OnClickListener {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             while (start) {
                 delay(100)
-                step_counterSensorValue.text = model.res
+                accelerometerSensorValue.text = model.res
+                step_counterSensorValue.text = model.listSensors().getStepCounter()
             }
         }
     }
