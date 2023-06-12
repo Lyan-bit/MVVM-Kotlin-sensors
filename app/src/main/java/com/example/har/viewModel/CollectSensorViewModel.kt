@@ -6,9 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import androidx.lifecycle.ViewModel
-import com.example.har.AccelerometerSensorManager
-import com.example.har.MySensorEvent
-import com.example.har.SensorType
+import com.example.har.*
 import org.tensorflow.lite.Interpreter
 import java.io.FileInputStream
 import java.nio.ByteBuffer
@@ -17,17 +15,23 @@ import java.nio.channels.FileChannel
 import java.util.*
 import kotlin.Comparator
 
-class SensorDataViewModel (myContext: Context): ViewModel()  {
+class CollectSensorViewModel (myContext: Context): ViewModel()  {
 
     private val assetManager: AssetManager = myContext.assets
     private var accelerometer: AccelerometerSensorManager = AccelerometerSensorManager(myContext)
-    var currentSensor = ""
+    private var stepCounter: StepCounterSensorManager = StepCounterSensorManager(myContext)
+    var currentSensor = SensorVO ()
     var res = ""
 
+
+    init {
+        //init
+    }
+
     companion object {
-        private var instance: SensorDataViewModel? = null
-        fun getInstance(context: Context): SensorDataViewModel {
-            return instance ?: SensorDataViewModel(context)
+        private var instance: CollectSensorViewModel? = null
+        fun getInstance(context: Context): CollectSensorViewModel {
+            return instance ?: CollectSensorViewModel(context)
         }
     }
 
@@ -114,22 +118,42 @@ class SensorDataViewModel (myContext: Context): ViewModel()  {
             startOffset, declaredLength)
     }
 
-    //sensors
+
+    fun collectSensor(): String {
+        var result = ""
+        return result
+    }
+
+
+
+
     fun startSensors () {
         if (!accelerometer.sensorExists()){
-            currentSensor = "No Accelerometer Sensor"
+            currentSensor.setAccelerometer("No Accelerometer Sensor")
         }
         else {
             accelerometer.startSensor()
         }
+        if (!stepCounter.sensorExists()){
+            currentSensor.setStepCounter("No StepCounter Sensor")
+        }
+        else {
+            stepCounter.startSensor()
+        }
     }
 
     fun stopSensors () {
-        accelerometer.stopSensor()
+        if (accelerometer.sensorExists()){
+            accelerometer.stopSensor()
+        }
+        if (stepCounter.sensorExists()){
+            stepCounter.stopSensor()
+        }
     }
 
     fun setHandler() {
         accelerometer.setHandler(handler)
+        stepCounter.setHandler(handler)
     }
 
     // Handle messages
@@ -144,11 +168,22 @@ class SensorDataViewModel (myContext: Context): ViewModel()  {
             val accelerometerArray: ArrayList<FloatArray> = ArrayList()
 
             if (sensorEvent.type == SensorType.Accelerometer){
-                currentSensor = sensorEvent.value
+                currentSensor.setAccelerometer(sensorEvent.value)
+
                 accelerometerArray.add(sensorEvent.data)
-                res = classify(accelerometerArray)
+                classify(accelerometerArray)
                 accelerometerArray.clear()
-            }
+            }        else
+                if (sensorEvent.type == SensorType.STEP_COUNTER){
+                    currentSensor.setStepCounter(sensorEvent.value)
+
+                }
         }
     }
+
+    fun listSensors(): SensorVO {
+        return currentSensor
+    }
+
+
 }
